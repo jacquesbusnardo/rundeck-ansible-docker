@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+    rundeck:
+        hostname: rundeck
+        build: .
+        links:
+          - mysql
+        tty: true
+        environment:
+          RUNDECK_GRAILS_URL: http://rundeck.test:4440
+          RUNDECK_SERVER_FORWARDED: 'true'
+          RUNDECK_DATABASE_DRIVER: org.mariadb.jdbc.Driver
+          RUNDECK_DATABASE_USERNAME: rundeck
+          RUNDECK_DATABASE_PASSWORD: changeme!
+          RUNDECK_DATABASE_URL: jdbc:mysql://mysql/rundeck?autoReconnect=true&useSSL=false
+          RUNDECK_LOGGING_AUDIT_ENABLED: 'true'
+        volumes:
+          - data:/home/rundeck/server/data
+          - ./ansible.cfg:/home/rundeck/.ansible/ansible.cfg
+          - ./ansible-inventory:/home/rundeck/.ansible/inventory
+        restart: unless-stopped
+        ports:
+          - 4440:4440
+    mysql:
+        image: mysql:5.7
+        expose:
+          - 3306
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: rundeck
+          MYSQL_USER: rundeck
+          MYSQL_PASSWORD: changeme!
+        volumes:
+          - dbdata:/var/lib/mysql
+        restart: unless-stopped
+
+volumes:
+    data:
+    dbdata:
