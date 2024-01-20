@@ -13,6 +13,6 @@ COPY requirements.yml ./
 
 RUN ansible-galaxy install -r requirements.yml
 
-RUN mkdir -p /home/rundeck/.ansible/inventory
+RUN mkdir -p /home/rundeck/ansible-inventory
 
-COPY ansible.cfg /home/rundeck/.ansible/
+COPY ansible.cfg /home/rundeck/ansible.cfg

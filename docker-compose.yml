@@ -17,8 +17,8 @@ services:
           RUNDECK_LOGGING_AUDIT_ENABLED: 'true'
         volumes:
           - data:/home/rundeck/server/data
-          - ./ansible.cfg:/home/rundeck/.ansible/ansible.cfg
-          - ./ansible-inventory:/home/rundeck/.ansible/inventory
+          - ./ansible.cfg:/home/rundeck/.ansible.cfg
+          - ./ansible-inventory:/home/rundeck/ansible-inventory
         restart: unless-stopped
         ports:
           - 4440:4440

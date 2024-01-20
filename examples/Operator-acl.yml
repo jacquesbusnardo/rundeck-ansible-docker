@@ -1,0 +1,32 @@
+---
+description: System access to all projects and keys
+context:
+  application: 'rundeck'
+for:
+  project:
+    - match:
+        name: '.*'
+      allow: [read]
+  storage:
+    - allow: [read]
+by:
+  group: 'Operator'
+---
+description: Project-level access for a single project to view and run all jobs
+context:
+  project: 'NOC' #Project name
+for:
+  resource:
+    - equals:
+        kind: node
+      allow: [read]
+  resource:
+    - equals:
+        kind: event
+      allow: [read]
+  job:
+    - allow: [read, run, kill, killAs]
+  node:
+    - allow: [read, run]
+by:
+  group: 'Operator'
